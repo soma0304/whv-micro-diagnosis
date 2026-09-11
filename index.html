@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WHV語学学校チェック</title>
+  <meta name="description" content="オーストラリアWHVで語学学校を使うべきか、条件から比較する仮診断。" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow">AUSTRALIA WORKING HOLIDAY</p>
+      <h1 id="page-title">語学学校、<br /><span>あなたには必要？</span></h1>
+      <p class="lead">英語力・目的・資金から、<br />「行く」「短期だけ行く」「まず行かない」を比較します。</p>
+      <div class="trust-note"><span>✓</span> 提携先の都合で判定は変わりません</div>
+    </section>
+
+    <section class="card quiz-card" id="quiz" aria-live="polite">
+      <div class="progress-row"><span id="step-label">1 / 6</span><span id="progress-percent">17%</span></div>
+      <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+      <div id="question-area"></div>
+      <div class="quiz-actions">
+        <button id="back-btn" class="text-button" type="button" hidden>← 戻る</button>
+        <button id="next-btn" class="primary-button" type="button" disabled>次へ</button>
+      </div>
+    </section>
+
+    <section class="result-card" id="result" hidden aria-labelledby="result-title">
+      <p class="eyebrow">YOUR CHECK RESULT</p>
+      <p class="result-kicker">現時点の仮判定</p>
+      <h2 id="result-title"></h2>
+      <p id="result-summary" class="result-summary"></p>
+      <div id="result-options" class="option-list"></div>
+      <div class="result-next">
+        <p class="small-label">次に確認すること</p>
+        <ul id="next-checks"></ul>
+      </div>
+      <div class="partner-box">
+        <p class="small-label">関連サービスを見る</p>
+        <p>診断結果を踏まえて比較したい人向けの選択肢です。広告・提携先は明示します。</p>
+        <div class="partner-actions">
+          <a href="#" data-partner="school" class="partner-link">語学学校を比較する <span>↗</span></a>
+          <a href="#" data-partner="online" class="partner-link secondary-link">渡航前のオンライン英語を見る <span>↗</span></a>
+        </div>
+      </div>
+      <div class="feedback-box">
+        <p class="small-label">診断を改善するために</p>
+        <div class="feedback-question">
+          <p>この結果は、判断の役に立ちましたか？</p>
+          <div class="feedback-choices" data-feedback="useful">
+            <button type="button" data-value="useful">役に立った</button>
+            <button type="button" data-value="somewhat">少し役に立った</button>
+            <button type="button" data-value="not_much">あまり役に立たなかった</button>
+            <button type="button" data-value="not_useful">役に立たなかった</button>
+          </div>
+        </div>
+        <div class="feedback-question">
+          <p>診断を見る前と比べて、選択は変わりましたか？</p>
+          <div class="feedback-choices" data-feedback="changed">
+            <button type="button" data-value="changed">変わった</button>
+            <button type="button" data-value="slightly">少し変わった</button>
+            <button type="button" data-value="same">変わらない</button>
+            <button type="button" data-value="undecided">まだ決められない</button>
+          </div>
+        </div>
+        <div class="feedback-question">
+          <p>次に知りたいことは何ですか？</p>
+          <div class="feedback-choices" data-feedback="next_interest">
+            <button type="button" data-value="cost">学費と生活費の比較</button>
+            <button type="button" data-value="outcomes">学校に行った人・行かなかった人の結果</button>
+            <button type="button" data-value="school_match">自分に合う学校</button>
+            <button type="button" data-value="alternative">学校に行かない場合の準備</button>
+            <button type="button" data-value="other">その他</button>
+          </div>
+        </div>
+        <p id="feedback-thanks" class="feedback-thanks" hidden>回答ありがとうございます。次の診断改善に反映します。</p>
+      </div>
+      <button id="restart-btn" class="outline-button" type="button">もう一度診断する</button>
+      <p class="disclaimer">これは公開情報と入力条件による仮診断です。ビザ・学校選びの最終判断は各公式情報をご確認ください。</p>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
