@@ -13,6 +13,21 @@ async function saveEvent(event) {
   await fs.appendFile(dataFile, `${JSON.stringify({ ...event, receivedAt: new Date().toISOString() })}\n`, 'utf8');
 }
 
+async function forwardToGoogleSheets(event) {
+  const webhook = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+  if (!webhook) return;
+  try {
+    await fetch(webhook, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...event, receivedAt: new Date().toISOString() }),
+      signal: AbortSignal.timeout(5000)
+    });
+  } catch (error) {
+    console.error('Google Sheets forwarding failed:', error.message);
+  }
+}
+
 function json(res, status, body) {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' });
   res.end(JSON.stringify(body));
@@ -27,7 +42,9 @@ const server = http.createServer(async (req, res) => {
       if (body.length > 100_000) return json(res, 413, { ok: false });
       const event = JSON.parse(body);
       if (!event.event || typeof event.event !== 'string') return json(res, 400, { ok: false, error: 'event is required' });
-      await saveEvent({ event: event.event, details: event.details || {} });
+      const savedEvent = { event: event.event, details: event.details || {} };
+      await saveEvent(savedEvent);
+      await forwardToGoogleSheets(savedEvent);
       return json(res, 201, { ok: true });
     }
     if (req.method === 'GET') {
