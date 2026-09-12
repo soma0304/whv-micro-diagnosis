@@ -35,8 +35,9 @@ function json(res, status, body) {
 
 const server = http.createServer(async (req, res) => {
   try {
+    const requestUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
     if (req.method === 'OPTIONS') { res.writeHead(204, { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type' }); return res.end(); }
-    if (req.method === 'POST' && req.url === '/api/events') {
+    if (req.method === 'POST' && requestUrl.pathname === '/api/events') {
       let body = '';
       for await (const chunk of req) body += chunk;
       if (body.length > 100_000) return json(res, 413, { ok: false });
@@ -51,7 +52,7 @@ const server = http.createServer(async (req, res) => {
       return json(res, 201, { ok: true });
     }
     if (req.method === 'GET') {
-      const requested = req.url === '/' ? '/index.html' : req.url;
+      const requested = requestUrl.pathname === '/' ? '/index.html' : requestUrl.pathname;
       const safe = path.normalize(requested).replace(/^([.][.][/\\])+/, '');
       const file = path.join(root, safe);
       if (!file.startsWith(root)) return json(res, 403, { ok: false });
