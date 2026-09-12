@@ -21,6 +21,7 @@ const questions = [
 
 const state = { index: 0, answers: {} };
 const sessionKey = 'whv_micro_diagnosis_session_id';
+const source = new URLSearchParams(location.search).get('source') || 'direct';
 const sessionId = localStorage.getItem(sessionKey) || (() => {
   const id = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
   localStorage.setItem(sessionKey, id);
@@ -35,7 +36,7 @@ const result = document.querySelector('#result');
 function track(event, details = {}) {
   const key = 'whv_micro_diagnosis_events';
   const events = JSON.parse(localStorage.getItem(key) || '[]');
-  const record = { event, details, sessionId, at: new Date().toISOString() };
+  const record = { event, details, sessionId, source, at: new Date().toISOString() };
   events.push(record);
   localStorage.setItem(key, JSON.stringify(events));
   if (location.protocol !== 'file:') {

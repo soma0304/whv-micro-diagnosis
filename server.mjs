@@ -44,7 +44,7 @@ const server = http.createServer(async (req, res) => {
       if (!event.event || typeof event.event !== 'string') return json(res, 400, { ok: false, error: 'event is required' });
       const savedEvent = {
         event: event.event,
-        details: { ...(event.details || {}), sessionId: event.sessionId || null }
+        details: { ...(event.details || {}), sessionId: event.sessionId || null, source: event.source || 'direct' }
       };
       await saveEvent(savedEvent);
       await forwardToGoogleSheets(savedEvent);
